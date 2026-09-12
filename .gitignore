@@ -1,0 +1,8 @@
+drm_splash
+build/
+*.o
+!*.c
+!*.h
+!meson.build
+!README*
+!LICENSE*
