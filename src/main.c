@@ -108,6 +108,7 @@ static int switch_vt(int vt_num, int *out_orig_vt) {
 
     if (ioctl(fd, VT_ACTIVATE, vt_num) < 0) { close(fd); return -1; }
     if (ioctl(fd, VT_WAITACTIVE, vt_num) < 0) { close(fd); return -1; }
+    if (ioctl(fd, VT_LOCKSWITCH) < 0) perror("VT_LOCKSWITCH"); // Not Emerg Error
     return fd;  // 保持打开，退出时切回
 }
 
@@ -330,6 +331,7 @@ int main(int argc, char **argv) {
 
     // 切回原 VT
     if (st.vt_fd >= 0) {
+        ioctl(st.vt_fd, VT_UNLOCKSWITCH);
         ioctl(st.vt_fd, VT_ACTIVATE, st.orig_vt);
         ioctl(st.vt_fd, VT_WAITACTIVE, st.orig_vt);
         close(st.vt_fd);
