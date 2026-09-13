@@ -49,8 +49,7 @@ static uint32_t *load_png_xrgb(const char *path, int *out_w, int *out_h) {
     if (!info) die("png_create_info_struct");
 
     if (setjmp(png_jmpbuf(png))) {
-        fprintf(stderr, "libpng 解码失败\n");
-        exit(1);
+        die("libpng 解码失败");
     }
 
     png_init_io(png, fp);
