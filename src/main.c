@@ -29,9 +29,12 @@ struct saved_state {
     int has_vt;
 };
 
+static struct saved_state st = {0};
+
 // ---------- 工具函数 ----------
 static void die(const char *msg) {
     fprintf(stderr, "错误: %s: %s\n", msg, strerror(errno));
+    if (st.vt_fd > 0) ioctl(st.vt_fd, VT_UNLOCKSWITCH);
     exit(1);
 }
 
@@ -129,7 +132,6 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    struct saved_state st = {0};
     st.fd = -1;
     st.vt_fd = -1;
 
