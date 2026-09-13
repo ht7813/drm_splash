@@ -23,3 +23,8 @@ executable('drm_splash',
   dependencies: [drm_dep, libpng_dep],
   install: true,
 )
+
+executable('unlock_vt',
+  ['src/unlock_vt.c'],
+  install: true,
+)
