@@ -227,25 +227,24 @@ int main(int argc, char **argv) {
 
         // 分配 mode 尺寸的像素缓冲，初始化为黑色
         uint32_t *canvas = calloc((size_t)mode_w * mode_h, 4);
-        for (size_t i = 0; i < (size_t)mode_w * mode_h; i++) {
+        for (size_t i = 0; i < (size_t)mode_w * mode_h; i++)
             canvas[i] = 0xFF000000;  // 黑
 
             // 最近邻缩放，写入 canvas 的居中区域
-            for (int y = 0; y < scaled_h; y++) {
-                int src_y = (int)(y / scale);
-                if (src_y >= img_h) src_y = img_h - 1;
-                for (int x = 0; x < scaled_w; x++) {
-                    int src_x = (int)(x / scale);
-                    if (src_x >= img_w) src_x = img_w - 1;
-                    canvas[(size_t)(off_y + y) * mode_w + (off_x + x)] =
-                    pixels[(size_t)src_y * img_w + src_x];
-                }
+        for (int y = 0; y < scaled_h; y++) {
+            int src_y = (int)(y / scale);
+            if (src_y >= img_h) src_y = img_h - 1;
+            for (int x = 0; x < scaled_w; x++) {
+                int src_x = (int)(x / scale);
+                if (src_x >= img_w) src_x = img_w - 1;
+                canvas[(size_t)(off_y + y) * mode_w + (off_x + x)] =
+                pixels[(size_t)src_y * img_w + src_x];
             }
-            free(pixels);
-            pixels = canvas;
-            img_w = mode_w;
-            img_h = mode_h;
         }
+        free(pixels);
+        pixels = canvas;
+        img_w = mode_w;
+        img_h = mode_h;
     }
 
     // ---------- 5. 创建 dumb buffer ----------
